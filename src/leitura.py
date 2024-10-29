@@ -46,6 +46,15 @@ print('Média da foto2: ', medias[1])
 print('Média da foto3: ', medias[2])
 print('Desvio padrão: ', desvio_padrao)
 
+x = int(input('Deseja visualizar a media de qual foto?\n1-\n2-\n3-\n'))
+
+if x == 1:
+    print(medias[0])
+elif x == 2:
+    print(medias[1])
+elif x == 3:
+    print(medias[2])
+
 img = Image.open('strawberries-3359755-1920-1-.webp').convert('RGB')
 img_processada = processar_imagem(img, media_referencia, desvio_padrao)
 
