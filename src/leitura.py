@@ -1,61 +1,49 @@
-from PIL import Image, ImageShow
+import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 
-def calcular_media(foto):
-    largura, altura = foto.size
-    media = 0
-    for x in range(largura):
-        for y in range(altura):
-            r, g, b = foto.getpixel((x, y))
-            media += r + g + b
-    return media / (largura * altura * 3)
+## AQUI CALCULA-SE A MEDIA DE COR DE UMA IMAGEM
+def calcular_media_cor(imagem_path):
+    imagem = cv2.imread(imagem_path)
+    imagem = cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB)
+    media_cor = np.mean(imagem.reshape(-1, 3), axis=0)
+    return media_cor
 
-def calcular_desvio_padrao(fotos):
-    medias = [calcular_media(foto) for foto in fotos]
-    return np.std(medias)
+padrões_morango = [
+    calcular_media_cor("padrao morango/foto_morango1.png"),
+    calcular_media_cor("padrao morango/foto_morango2.png"),
+    calcular_media_cor("padrao morango/foto_morango3.png"),
+    calcular_media_cor("padrao morango/foto_morango4.png"),
+    calcular_media_cor("padrao morango/foto_morango5.png"),
+    calcular_media_cor("padrao morango/foto_morango6.png"),
+    calcular_media_cor("padrao morango/foto_morango7.png"),
+]
 
-def processar_imagem(img, media_referencia, desvio_padrao_referencia):
-    largura, altura = img.size
-    nova_imagem = Image.new('RGB', (largura, altura))
-    limite_inferior = media_referencia - desvio_padrao_referencia
-    limite_superior = media_referencia + desvio_padrao_referencia
+def cores_semparelhadas(cor1, cor2, tolerancia=40):
+    distancia = np.linalg.norm(cor1 - cor2)
+    return distancia < tolerancia
 
-    for x in range(largura):
-        for y in range(altura):
-            r, g, b = img.getpixel((x, y))
-            
-            if (r > 150 and g < 100 and b < 100):
-                nova_imagem.putpixel((x, y), (r, g, b))
-            elif (r < 100 and g > 100 and b < 100):  
-                nova_imagem.putpixel((x, y), (0, 0, 0))
-            else:
-                nova_imagem.putpixel((x, y), (0, 0, 0))
+def colorir_morango_azul(imagem_path):
+    imagem = cv2.imread(imagem_path)
+    imagem_rgb = cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB) ## nesta linha, a imagem é convertida para RGB
+    imagem_azul = imagem_rgb.copy()
 
-    return nova_imagem
+    for i in range(imagem_rgb.shape[0]):
+        for j in range(imagem_rgb.shape[1]):
+            pixel_cor = imagem_rgb[i, j]
+            if any(cores_semparelhadas(pixel_cor, padrao) for padrao in padrões_morango):
+                imagem_azul[i, j] = [0, 0, 255]  
 
-foto1 = Image.open('padrao morango/foto_morango1.png').convert('RGB')
-foto2 = Image.open('padrao morango/foto_morango2.png').convert('RGB')
-foto3 = Image.open('padrao morango/foto_morango3.png').convert('RGB')
+    plt.subplot(1, 2, 1)
+    plt.imshow(imagem_rgb)
+    plt.title("Imagem Original")
+    plt.axis("off")
 
-medias = [calcular_media(foto1), calcular_media(foto2), calcular_media(foto3)]
-desvio_padrao = calcular_desvio_padrao([foto1, foto2, foto3])
-media_referencia = np.mean(medias)
+    plt.subplot(1, 2, 2)
+    plt.imshow(imagem_azul)
+    plt.title("Morango em Azul")
+    plt.axis("off")
 
-print('Média da foto1: ', medias[0])
-print('Média da foto2: ', medias[1])
-print('Média da foto3: ', medias[2])
-print('Desvio padrão: ', desvio_padrao)
+    plt.show()
 
-x = int(input('Deseja visualizar a media de qual foto?\n1-\n2-\n3-\n'))
-
-if x == 1:
-    print(medias[0])
-elif x == 2:
-    print(medias[1])
-elif x == 3:
-    print(medias[2])
-
-img = Image.open('strawberries-3359755-1920-1-.webp').convert('RGB')
-img_processada = processar_imagem(img, media_referencia, desvio_padrao)
-
-ImageShow.show(img_processada)
+colorir_morango_azul("morango_laranja.png")
