@@ -19,7 +19,7 @@ padrões_morango = [
     calcular_media_cor("padrao morango/foto_morango7.png"),
 ]
 
-def cores_semparelhadas(cor1, cor2, tolerancia=40):
+def cores_semparelhadas(cor1, cor2, tolerancia=20):
     distancia = np.linalg.norm(cor1 - cor2)
     return distancia < tolerancia
 
