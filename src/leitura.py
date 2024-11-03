@@ -10,13 +10,14 @@ def calcular_media_cor(imagem_path):
     return media_cor
 
 padrões_morango = [
-    calcular_media_cor("./padrao morango/foto_morango1.png"),
-    calcular_media_cor("./padrao morango/foto_morango2.png"),
-    calcular_media_cor("./padrao morango/foto_morango3.png"),
-    calcular_media_cor("./padrao morango/foto_morango4.png"),
-    calcular_media_cor("./padrao morango/foto_morango5.png"),
-    calcular_media_cor("./padrao morango/foto_morango6.png"),
-    calcular_media_cor("./padrao morango/foto_morango7.png"),
+    calcular_media_cor("padrao morango/foto_morango1.png"),
+    calcular_media_cor("padrao morango/foto_morango2.png"),
+    calcular_media_cor("padrao morango/foto_morango3.png"),
+    calcular_media_cor("padrao morango/foto_morango4.png"),
+    calcular_media_cor("padrao morango/foto_morango5.png"),
+    calcular_media_cor("padrao morango/foto_morango6.png"),
+    calcular_media_cor("padrao morango/foto_morango7.png"),
+    calcular_media_cor("padrao morango/foto_morango8.png"),
 ]
 
 def cores_semparelhadas(cor1, cor2, tolerancia=40):
@@ -46,4 +47,4 @@ def colorir_morango_azul(imagem_path):
 
     plt.show()
 
-colorir_morango_azul("imagens de morango/frulix-morango-fruta-1.jpg")
+colorir_morango_azul("imagens de morango\morango-maduro-vermelho-perfeito-com-isolado-de-folha_131956-722.jpg")
