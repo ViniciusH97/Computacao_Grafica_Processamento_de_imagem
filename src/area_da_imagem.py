@@ -1,11 +1,11 @@
 import cv2
 
-imagem = cv2.imread("src/morango_laranja.png")
+imagem = cv2.imread("imagens de morango/morango_laranja.png")
 
 altura, largura, canais = imagem.shape
 
-# Leitura de todos os pixels da imagem
-for i in range(altura):
-    for j in range(largura):
-        pixel_cor = imagem[i, j]
-        print(pixel_cor)
+with open("imagens de morango/area_da_imagem.txt", "w") as arquivo:
+    for i in range(altura):
+        for j in range(largura):
+            pixel_cor = imagem[i, j]
+            arquivo.write(f"Pixel ({i}, {j}): {pixel_cor}\n")
