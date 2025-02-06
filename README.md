@@ -1,3 +1,3 @@
-# Histograma de imagem
+# Processamento de Imagem
 
-## Realizado detecção de cor em processamento de imagem
+## Realizado detecção de cor RGB, quantidade de pixels e resolução de imagem
